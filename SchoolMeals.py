@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 client = discord.Client()
 
-token = "NjM4MTY4NTY1Nzk0NjAzMDE5.XbZoPQ.h624p7fTHItC8KSUcPeZVYb4wlY"
+token = "NjM4MTY4NTY1Nzk0NjAzMDE5.XbZuOQ.dSdKmI3Mzu9tlyTiZsE7fSTwmyI"
 
 ch = 0
 def sl(a):
@@ -50,6 +50,8 @@ async def on_message(message):
     
         result = ''
         for i in li:
+            if i == '에너지':
+                break
             result += i+'\n'
 
         channel = message.channel
