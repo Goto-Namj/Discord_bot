@@ -13,10 +13,11 @@ def list_to_str(list, option=''):
     return str
 
 def _time(when='now'):
+    KST = datetime.timedelta(seconds = 32400)
     if when == 'now':
-        date_time = str( datetime.datetime.now() )
+        date_time = str( datetime.datetime.now() + KST)
     elif when == 'next':
-        date_time = str( datetime.datetime.now() + datetime.timedelta(days = 1) )
+        date_time = str( datetime.datetime.now() + datetime.timedelta(days = 1) + KST)
     time = {
         'year': date_time[:4],
         'month': date_time[5:7],
@@ -57,7 +58,7 @@ class SMBot(discord.Client):
     def basic_setting(self):
         self.re_pattern = {
             'amp;': re.compile("[^amp;]+"),
-            'korean': re.compile("[가-힣\s]*&?[가-힣\s]+"),
+            'korean': re.compile("[가-힣\s]*[&]?[,]?[가-힣\s]*[&]?[,]?[(]?[가-힣\s]+[)]?"),
         }
         self.endtime = {
             'breakfast': (  8  )*60+  0,
