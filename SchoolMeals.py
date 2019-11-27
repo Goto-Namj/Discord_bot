@@ -13,11 +13,11 @@ def list_to_str(list, option=''):
     return str
 
 def _time(when='now'):
-    KST = datetime.timedelta(seconds = 32400)
+    KST = datetime.timedelta(hours = 9)
     if when == 'now':
         date_time = str( datetime.datetime.now() + KST)
     elif when == 'next':
-        date_time = str( datetime.datetime.now() + datetime.timedelta(days = 1) + KST)
+        date_time = str( datetime.datetime.now() + datetime.timedelta(hours = 6) + KST)
     time = {
         'year': date_time[:4],
         'month': date_time[5:7],
@@ -100,8 +100,8 @@ class SMBot(discord.Client):
         if now_time['time'] >= self.endtime['dinner']: # 저녁식사 이후면 크롤링할 정보는 다음날의 정보
             now_time = _time('next')
         if self.time['ymd'] != now_time['ymd']: # 당일 첫 크롤링
-            self.time = now_time
-            self.menu = crawling_split(self.time, self.re_pattern)
+            self.menu = crawling_split(now_time, self.re_pattern)
+        self.time = now_time
         if self.time['time'] < self.endtime['breakfast']:
             menu = self.menu['breakfast']
             self.mealtime = '아침'
