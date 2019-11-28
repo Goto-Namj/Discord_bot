@@ -43,15 +43,22 @@ def crawling_split(time, re_pattern):
     for i in items:
         str_i = str(i)
         if str_i.startswith("<div>" + time["day"] + "<"):  # <div>31< 식으로 날짜 구분
-            i_list = re_pattern["amp;"].findall(
+            i_list = re_pattern["amp;"].findall(      # 치킨&맥주 와 같이 한 음식이 치킨&amp;맥주 로 표기되어서 amp;삭제
                 str_i
-            )  # 치킨&맥주 와 같이 한 음식이 치킨&amp;맥주 로 표기되어서
+            )
             l_t_s = list_to_str(i_list)
             lts_split = l_t_s.split("[")  # [조식]뭐뭐[석식]뭐뭐 식으로 구별되어있는 것을 나눔
             del lts_split[0]  # [조식] 전의 필요 없는 첫 문자 제거
-            menu["breakfast"] = re_pattern["korean"].findall(lts_split[0][2:])
-            menu["lunch"] = re_pattern["korean"].findall(lts_split[1][2:])
-            menu["dinner"] = re_pattern["korean"].findall(lts_split[2][2:])
+            menu["breakfast"] = "없음"
+            menu["lunch"] = "없음"
+            menu["dinner"] = "없음"
+            for j in lts_split:
+                if j[:2] == "조식":
+                    menu["breakfast"] = re_pattern["korean"].findall(j[2:])
+                elif j[:2] == "중식":
+                    menu["lunch"] = re_pattern["korean"].findall(j[2:])
+                elif j[:2] == "석식":
+                    menu["dinner"] = re_pattern["korean"].findall(j[2:])
             break
     return menu
 
